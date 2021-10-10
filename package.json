@@ -1,0 +1,30 @@
+{
+  "name": "aroundtheus-backend",
+  "version": "1.0.0",
+  "description": "building the server for the Around The US project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heartthew/around-express.git"
+  },
+  "author": "Lawrence Clifford",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heartthew/around-express/issues"
+  },
+  "homepage": "https://github.com/heartthew/around-express#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "express": "^4.17.1"
+  }
+}
