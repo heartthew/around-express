@@ -15,10 +15,10 @@ const getUserbyId = (req, res) => {
         .then((user) => {
             if (!user) {
                 res.status(404).send({ "message": "User ID not found" })
-                // res.status(404).send(`No user found with id of ${req.params.id}`)
             } else {
                 res.status(200).send(user);
-            }})
+            }
+        })
         .catch(err => res.status(500).send(err))
 }
 
