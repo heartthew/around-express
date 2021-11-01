@@ -17,7 +17,7 @@ const getUser = (req, res) => User.findbyId(req.params.id)
 
 const updateUser = (req, res) => {
   const { name, about } = req.body;
-  User.findbyIdandUpdate(req.params.id, { name, about }) // code here
+  User.findbyIdandUpdate(req.params.id, { name, about }, { new: true })
     .then((user) => res.status(200).send({ data: user }))
     .then((user) => {
       if (!user) {
@@ -31,7 +31,7 @@ const updateUser = (req, res) => {
 
 const updateAvatar = (req, res) => {
   const { avatar } = req.body;
-  User.findbyIdandUpdate(req.params.id, { avatar }) // code here
+  User.findbyIdandUpdate(req.params.id, { avatar }, { new: true })
     .then((user) => res.status(200).send({ data: user }))
     .then((user) => {
       if (!user) {
@@ -46,7 +46,7 @@ const updateAvatar = (req, res) => {
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send({ user }))
     .catch(res.status(500).send({ message: 'Error' }));
 };
 

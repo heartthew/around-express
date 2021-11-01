@@ -15,7 +15,7 @@ const createCard = (req, res) => {
     name, link, owner, likes, createdAt,
   })
     .then((card) => res.send({ data: card }))
-    .catch(res.status(500).send({ message: 'Error' }));
+    .catch(res.status(500).send({ message: 'Rut Ro' }));
 };
 
 const deleteCard = (req, res) => Card.findByIdAndRemove(req.params.id)
@@ -23,15 +23,21 @@ const deleteCard = (req, res) => Card.findByIdAndRemove(req.params.id)
   .catch(() => res.status(500).send({ message: 'Error' }));
 
 const likeCard = (req, res) => {
-  const { likes } = req.body;
-  Card.findByIdandUpdate(req.params.id, likes) // code here
+  Card.findByIdandUpdate(
+    req.params.cardId,
+    { $addToSet: { likes: req.user._id } },
+    { new: true },
+  )
     .then((card) => res.status(200).send({ data: card }))
     .catch((err) => res.status(500).send(err));
 };
 
 const unlikeCard = (req, res) => {
-  const { likes } = req.body;
-  Card.findByIdandUpdate(req.params.id, !likes) // code here
+  Card.findByIdandUpdate(
+    req.params.cardId,
+    { $pull: { likes: req.user._id } },
+    { new: true },
+  )
     .then((card) => res.status(200).send({ data: card }))
     .catch((err) => res.status(500).send(err));
 };
