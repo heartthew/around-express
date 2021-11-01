@@ -23,15 +23,19 @@ const deleteCard = (req, res) => Card.findByIdAndRemove(req.params.id)
   .catch(() => res.status(500).send({ message: 'Error' }));
 
 const likeCard = (req, res) => {
-  Card.findById(req.params.id)
-  .then((card) => res.status(200).send({ data: card }))
-  .catch((err) => res.status(500).send(err));
+  const { likes } = req.body;
+  Card.findByIdandUpdate(req.params.id, likes) // code here
+    .then((card) => res.status(200).send({ data: card }))
+    .catch((err) => res.status(500).send(err));
 };
 
 const unlikeCard = (req, res) => {
-  Card.findById(req.params.id)
-  .then((card) => res.status(200).send({ data: card }))
-  .catch((err) => res.status(500).send(err));
+  const { likes } = req.body;
+  Card.findByIdandUpdate(req.params.id, !likes) // code here
+    .then((card) => res.status(200).send({ data: card }))
+    .catch((err) => res.status(500).send(err));
 };
 
-module.exports = { getCards, createCard, deleteCard };
+module.exports = {
+  getCards, createCard, deleteCard, likeCard, unlikeCard,
+};
