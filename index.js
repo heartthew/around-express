@@ -10,8 +10,8 @@ const { PORT = 3000 } = process.env;
 
 mongoose.connect('mongodb://localhost:27017/aroundb');
 
-app.use('users/', userRouter);
-app.use('cards/', cardRouter);
+app.use('/users', userRouter);
+app.use('/cards', cardRouter);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use((req, res) => {
