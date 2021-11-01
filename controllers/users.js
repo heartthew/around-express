@@ -1,14 +1,11 @@
-const path = require('path');
-const getFileData = require('../helpers/files');
+const User = require('../models/user');
 
-const dataPath = path.join(__dirname, '..', 'data', 'users.json');
-
-const getUsers = (req, res) => getFileData(dataPath)
-  .then((users) => res.status(200).send(users))
+const getUsers = (req, res) => User.find({})
+  .then((users) => res.status(200).send({ data: users }))
   .catch((err) => res.status(500).send(err));
 
-const getUserbyId = (req, res) => getFileData(dataPath)
-  .then((users) => users.find((user) => user._id === req.params.id))
+const getUser = (req, res) => User.findbyId(req.params.id)
+  .then((users) => res.status(200).send({ data: users }))
   .then((user) => {
     if (!user) {
       res.status(404).send({ message: 'User ID not found' });
@@ -18,4 +15,10 @@ const getUserbyId = (req, res) => getFileData(dataPath)
   })
   .catch((err) => res.status(500).send(err));
 
-module.exports = { getUsers, getUserbyId };
+const createUser = (req, res) => {
+  const { name, about, avatar } = req.body;
+  User.create({ name, about, avatar })
+    .then((user) => res.send({ data: user }))
+    .catch(res.status(500).send({ message: 'Error' }));
+};
+module.exports = { getUsers, getUser, createUser };

@@ -1,6 +1,8 @@
-const router = require('express').Router();
-const { getCards } = require('../controllers/cards');
+const cardRouter = require('express').Router();
+const { getCards, createCard, deleteCard } = require('../controllers/cards');
 
-router.get('/cards', getCards);
+cardRouter.get('/cards', getCards);
+cardRouter.post('/cards', createCard);
+cardRouter.delete('/cards/:_id', deleteCard); // underscore or no?
 
-module.exports = router;
+module.exports = cardRouter;
