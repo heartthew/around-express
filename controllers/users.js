@@ -10,7 +10,7 @@ const getUser = (req, res) => User.findbyId(req.params.id)
     if (!user) {
       res.status(404).send({ message: 'User ID not found' });
     } else {
-      res.status(200).send(user);
+      res.status(200).send({ data: user });
     }
   })
   .catch((err) => res.status(500).send(err));
@@ -23,7 +23,7 @@ const updateUser = (req, res) => {
       if (!user) {
         res.status(404).send({ message: 'User ID not found' });
       } else {
-        res.status(200).send(user);
+        res.status(200).send({ data: user });
       }
     })
     .catch((err) => res.status(500).send(err));
@@ -46,7 +46,7 @@ const updateAvatar = (req, res) => {
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
-    .then((user) => res.send({ user }))
+    .then((user) => res.send({ data: user }))
     .catch(res.status(500).send({ message: 'Error' }));
 };
 

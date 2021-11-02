@@ -5,7 +5,7 @@ const {
 
 cardRouter.get('/cards', getCards);
 cardRouter.post('/cards', createCard);
-cardRouter.delete('/cards/:cardId', deleteCard); // underscore or no?
+cardRouter.delete('/cards/:cardId', deleteCard);
 cardRouter.put('/cards/', likeCard);
 cardRouter.delete('/cards', unlikeCard);
 
