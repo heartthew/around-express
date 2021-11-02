@@ -2,9 +2,10 @@ const User = require('../models/user');
 
 const getUsers = (req, res) => User.find({})
   .then((users) => res.status(200).send({ data: users }))
-  .catch((err) => res.status(500).send(err));
+  .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
 
 const getUser = (req, res) => User.findbyId(req.params.id)
+  .orFail()
   .then((user) => res.status(200).send({ data: user }))
   .then((user) => {
     if (!user) {
@@ -13,11 +14,12 @@ const getUser = (req, res) => User.findbyId(req.params.id)
       res.status(200).send({ data: user });
     }
   })
-  .catch((err) => res.status(500).send(err));
+  .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
 
 const updateUser = (req, res) => {
   const { name, about } = req.body;
   User.findbyIdandUpdate(req.params.id, { name, about }, { new: true })
+    .orFail()
     .then((user) => res.status(200).send({ data: user }))
     .then((user) => {
       if (!user) {
@@ -26,12 +28,13 @@ const updateUser = (req, res) => {
         res.status(200).send({ data: user });
       }
     })
-    .catch((err) => res.status(500).send(err));
+    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
 };
 
 const updateAvatar = (req, res) => {
   const { avatar } = req.body;
   User.findbyIdandUpdate(req.params.id, { avatar }, { new: true })
+    .orFail()
     .then((user) => res.status(200).send({ data: user }))
     .then((user) => {
       if (!user) {
@@ -40,14 +43,14 @@ const updateAvatar = (req, res) => {
         res.status(200).send({ data: user });
       }
     })
-    .catch((err) => res.status(500).send(err));
+    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
 };
 
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
-    .catch(res.status(500).send({ message: 'Error' }));
+    .catch(res.status(500).send({ message: 'Creation Failed At Server' }));
 };
 
 module.exports = {
