@@ -21,9 +21,9 @@ app.use('/cards', cardRouter);
 
   next();
 }); */
-app.use('/', (req, res) => {
-  res.status(404).send({ message: 'Requested item not found' });
-});
+app.all('*', (req, res) => {
+  res.status(404).send({ message: 'Requested item iiiiiis not found' });
+}); 
 
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);
