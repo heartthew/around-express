@@ -19,8 +19,6 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: 'true',
 });
 
-app.use('/users', userRouter);
-app.use('/cards', cardRouter);
 /* app.use((req, res, next) => {
   req.user = {
     _id: '----', // test user id
@@ -28,6 +26,10 @@ app.use('/cards', cardRouter);
 
   next();
 }); */
+
+app.use('/users', userRouter);
+app.use('/cards', cardRouter);
+
 app.use('*', (req, res) => {
   res.status(404).send({ message: 'Requested route not found' });
 });
