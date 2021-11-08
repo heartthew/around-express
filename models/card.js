@@ -12,18 +12,18 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true,
-    validate: {
+/*     validate: {
       validator(v) {
         return regexUrl.test(v);
       },
       message: 'invalid url',
-    },
+    }, */
   },
   owner: {
     type: mongoose.Types.ObjectId,
   },
   likes: {
-    type: mongoose.Types.ObjectId, // or array?
+    type: mongoose.Types.ObjectId,
     default: [],
   },
   createdAt: {

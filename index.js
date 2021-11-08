@@ -1,5 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+
+const helmet = require('helmet');
 
 const app = express();
 const userRouter = require('./routes/users');
@@ -7,10 +10,12 @@ const cardRouter = require('./routes/cards');
 
 const { PORT = 3000 } = process.env;
 
-app.use(express.json());
+app.use(cors());
+app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/mydb', {
+mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: 'true',
 });
 
@@ -23,8 +28,8 @@ app.use('/cards', cardRouter);
 
   next();
 }); */
-app.all('*', (req, res) => {
-  res.status(404).send({ message: 'Requested item iiiiiis not found' });
+app.use('*', (req, res) => {
+  res.status(404).send({ message: 'Requested route not found' });
 });
 
 app.listen(PORT, () => {

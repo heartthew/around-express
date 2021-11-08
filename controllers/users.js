@@ -1,34 +1,39 @@
 const User = require('../models/user');
 
+const createUser = (req, res) => {
+  console.log(req.body);
+  const duuude = req.body;
+  return User.create(duuude)
+    .then((user) => res.status(200).send({ data: user }))
+    .catch(() => res.status(500).send({ message: 'Creation failed at server.' }));
+};
+
 const getUsers = (req, res) => User.find({})
   .then((users) => res.status(200).send({ data: users }))
-  .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+  .catch(() => res.status(500).send({ message: 'Server failed to return users.' }));
 
-const getUser = (req, res) => User.findbyId(req.params.id)
-  .orFail()
-  .then((user) => res.status(200).send({ data: user }))
-  .then((user) => {
-    if (!user) {
-      res.status(404).send({ message: 'User ID not found' });
-    } else {
-      res.status(200).send({ data: user });
-    }
-  })
-  .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+const getUser = (req, res) => {
+  const { id } = req.params;
+
+  User.findById({ id })
+    .orFail()
+    .then((user) => res.status(200).send({ data: user }))
+    .catch(() => res.status(500).send({ message: 'Server has borked this attempt.' }));
+};
 
 const updateUser = (req, res) => {
   const { name, about } = req.body;
-  User.findbyIdandUpdate(req.params.id, { name, about }, { new: true })
+  User.findOneandUpdate(req.params.id, { name, about }, { new: true })
     .orFail()
     .then((user) => res.status(200).send({ data: user }))
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'User ID not found' });
+        res.status(404).send({ message: 'Invalid User ID.' });
       } else {
         res.status(200).send({ data: user });
       }
     })
-    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
+    .catch(() => res.status(500).send({ message: 'Server did not complete update.' }));
 };
 
 const updateAvatar = (req, res) => {
@@ -38,19 +43,12 @@ const updateAvatar = (req, res) => {
     .then((user) => res.status(200).send({ data: user }))
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'User ID not found' });
+        res.status(404).send({ message: 'User ID does not exist.' });
       } else {
         res.status(200).send({ data: user });
       }
     })
-    .catch(() => res.status(500).send({ message: 'An error has occurred on the server' }));
-};
-
-const createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
-    .then((user) => res.send({ data: user }))
-    .catch(res.status(500).send({ message: 'Creation Failed At Server' }));
+    .catch(() => res.status(500).send({ message: 'Avatar unchanged. Server failure.' }));
 };
 
 module.exports = {
