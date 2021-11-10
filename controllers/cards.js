@@ -2,14 +2,14 @@ const Card = require('../models/card');
 
 const createCard = (req, res) => {
   const {
-    name, link, owner, likes, createdAt,
-  } = req.params;
+    name, link, owner,
+  } = req.body;
 
   Card.create({
-    name, link, owner, likes, createdAt,
+    name, link, owner,
   })
     .then((card) => res.status(200).send({ data: card }))
-    .catch(res.status(500).send({ message: 'Rut ro, no Create-O' }));
+    .catch(() => res.status(500).send({ message: 'Rut ro, no Create-O' }));
 };
 
 const getCards = (req, res) => Card.find({})

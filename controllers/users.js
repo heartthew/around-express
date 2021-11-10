@@ -1,11 +1,12 @@
 const User = require('../models/user');
 
 const createUser = (req, res) => {
-  console.log(req.body);
-  const duuude = req.body;
-  return User.create(duuude)
+  const { name, about, avatar } = req.body;
+  User.create({
+    name, about, avatar,
+  })
     .then((user) => res.status(200).send({ data: user }))
-    .catch(() => res.status(500).send({ message: 'Creation failed at server.' }));
+    .catch(() => res.status(500).send({ message: 'Serve unable to create user.' }));
 };
 
 const getUsers = (req, res) => User.find({})
@@ -15,7 +16,7 @@ const getUsers = (req, res) => User.find({})
 const getUser = (req, res) => {
   const { id } = req.params;
 
-  User.findById({ id })
+  User.findById(id)
     .orFail()
     .then((user) => res.status(200).send({ data: user }))
     .catch(() => res.status(500).send({ message: 'Server has borked this attempt.' }));
