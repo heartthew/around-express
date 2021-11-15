@@ -1,10 +1,17 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-
+const mongoose = require('mongoose');
 const helmet = require('helmet');
 
 const app = express();
+const allowedOrigins = [
+  'https://around.nomoreparties.co',
+  'http://around.nomoreparties.co',
+  'http://localhost:3000',
+];
+
+app.use(cors({ origin: allowedOrigins }));
+
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 
@@ -19,13 +26,13 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: 'true',
 });
 
-/* app.use((req, res, next) => {
+app.use((req, res, next) => {
   req.user = {
-    _id: '----', // test user id
+    _id: '6191345dff28e3d21fcc4bea', // test user id
   };
 
   next();
-}); */
+});
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
