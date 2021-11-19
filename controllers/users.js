@@ -47,7 +47,9 @@ const getUser = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'DocumentNotFoundError') {
+        res.status(404).send({ message: 'Not found' });
+      } else if (err.name === 'CastError') {
         res.status(400).send({ message: 'Not a valid ID' });
       } else {
         res.status(500).send({ message: err.message || 'Server is Borked' });
@@ -59,7 +61,7 @@ const updateUser = (req, res) => {
   const { name, about } = req.body;
   const id = req.user._id;
 
-  User.findByIdAndUpdate(id, { name, about }, { new: true })
+  User.findByIdAndUpdate(id, { name, about }, { new: true, runValidators: true })
     .orFail()
     .then((user) => {
       console.error();
@@ -70,7 +72,9 @@ const updateUser = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'DocumentNotFoundError') {
+        res.status(404).send({ message: 'ID not found' });
+      } else if (err.name === 'CastError') {
         res.status(400).send({ message: 'Not a valid ID' });
       } else {
         res.status(500).send({ message: err.message || 'Server is Borked' });
@@ -82,7 +86,7 @@ const updateAvatar = (req, res) => {
   const { avatar } = req.body;
   const id = req.user._id;
 
-  User.findByIdAndUpdate(id, { avatar }, { new: true })
+  User.findByIdAndUpdate(id, { avatar }, { new: true, runValidators: true })
     .orFail()
     .then((user) => {
       console.error();
@@ -93,7 +97,9 @@ const updateAvatar = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'DocumentNotFoundError') {
+        res.status(404).send({ message: 'ID not found' });
+      } else if (err.name === 'CastError') {
         res.status(400).send({ message: 'Not a valid ID' });
       } else {
         res.status(500).send({ message: err.message || 'Server is Borked' });

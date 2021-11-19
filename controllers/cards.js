@@ -46,7 +46,9 @@ const deleteCard = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'DocumentNotFoundError') {
+        res.status(404).send({ message: 'ID not found' });
+      } else if (err.name === 'CastError') {
         res.status(400).send({ message: 'Not a valid ID' });
       } else {
         res.status(500).send({ message: err.message || 'Server is Borked' });
@@ -72,7 +74,9 @@ const likeCard = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'DocumentNotFoundError') {
+        res.status(404).send({ message: 'ID not found' });
+      } else if (err.name === 'CastError') {
         res.status(400).send({ message: 'Not a valid ID' });
       } else {
         res.status(500).send({ message: err.message || 'Server is Borked' });
@@ -98,7 +102,9 @@ const unlikeCard = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'DocumentNotFoundError') {
+        res.status(404).send({ message: 'ID not found' });
+      } else if (err.name === 'CastError') {
         res.status(400).send({ message: 'Not a valid ID' });
       } else {
         res.status(500).send({ message: err.message || 'Server is Borked' });
